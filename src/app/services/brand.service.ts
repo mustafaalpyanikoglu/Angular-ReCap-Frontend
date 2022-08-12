@@ -8,12 +8,18 @@ import { Brand } from '../models/brand';
 })
 export class BrandService {
 
-  apiUrl = "https://localhost:44395/api/Brands/getall";
+  apiUrl = "https://localhost:44395/api/";
 
   constructor(private httpClient:HttpClient) { }
 
-  getBrands():Observable<listResponseModel<Brand>>
+  getBrands():Observable<listResponseModel<Brand>> 
   {
-    return this.httpClient.get<listResponseModel<Brand>>(this.apiUrl);
-  }
+    return this.httpClient.get<listResponseModel<Brand>>(this.apiUrl+'brands/getall');
+  };
+
+    getCarsByBrandId(brandId:number):Observable<listResponseModel<Brand>> 
+    {
+      let newPath=this.apiUrl+ "cars/brands/getbyid?id="+brandId;
+      return this.httpClient.get<listResponseModel<Brand>>(newPath);
+    }
 }

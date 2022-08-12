@@ -1,18 +1,9 @@
 <div class="bg-secondary text-white btn w-100 mt-1 mb-1">Brands</div>
 <ul class="list-group">
-    <li *ngFor="let brand of brands" class="list-group-item">{{brand.brandName}}</li>
+    <li routerLink="/cardetails" [class]="getAllBrandClass()" (click)="clearCurrentBrand()">
+        All Cars
+    </li>
+    <li *ngFor="let brand of brands" routerLink="/cardetails/brand/{{brand.brandId}}" [class]="getCurrentBrandClass(brand)" (click)='setCurrentBrand(brand)'>
+        {{brand.brandName}}
+    </li>
 </ul>
-
-
-<!--<table *ngIf="dataLoaded==true" class="table">
-    <thead>
-        <tr>
-            <td>Id</td>
-            <td>Ürün Adı</td>
-        </tr>
-    </thead>
-    <tr *ngFor="let brand of brands">
-        <td>{{brand.brandId}}</td>
-        <td>{{brand.brandName}}</td>
-    </tr>
-</table>-->
