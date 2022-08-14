@@ -1,3 +1,12 @@
+<div class="mb-3">
+    <label for="filterTexxt" class="form-label">Ürün ara</label>
+    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterTexxt" placeholder="arama ifadesi giriniz">
+</div>
+<div *ngIf="filterText" class="alert alert-success">
+    {{filterText}} aradınız
+</div>
+
+
 <div class="row d-flex pt-5 ps-5">
     <div class="card col-3 m-1 me-5 bg-dark p-1" *ngFor="let carDetailDto of carDetailDtos">
         <img src="https://localhost:44395/uploads/images/{{carDetailDto.imagePath}}" class="card-img-top" alt="...">

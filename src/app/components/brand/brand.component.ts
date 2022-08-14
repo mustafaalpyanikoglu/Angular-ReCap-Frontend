@@ -11,6 +11,10 @@ export class BrandComponent implements OnInit {
   brands:Brand[]=[];
   currentBrand : Brand;
   emptyBrand:Brand;
+  dataLoaded: boolean = false;
+  dataWithRoute: boolean = false;
+  filterBrandText: string = '';
+  allBrands: string = 'All Brands';
 
   constructor(private brandService:BrandService) { }
 
@@ -25,7 +29,7 @@ export class BrandComponent implements OnInit {
     })
   }
 
-  setCurrentBrand(brand:Brand)
+  setCurrentBrand(brand:Brand):void
   {
     this.currentBrand = brand;
   }
