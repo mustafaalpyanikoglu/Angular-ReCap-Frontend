@@ -17,6 +17,7 @@ import { OneCarDetailComponent } from './components/one-car-detail/one-car-detai
 import { BrandFilterPipe } from './pipes/brand-filter.pipe';
 import { CarFilterPipe } from './pipes/car-filter.pipe';
 import { ColorFilterPipe } from './pipes/color-filter.pipe';
+import { HomeComponent } from './components/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { ColorFilterPipe } from './pipes/color-filter.pipe';
     BrandFilterPipe,
     CarFilterPipe,
     ColorFilterPipe,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

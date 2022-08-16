@@ -1,11 +1,17 @@
 import { DecimalPipe } from "@angular/common";
+import { CarImage } from "./carImage";
 
 export interface Car
 {
-    carId:number;
-    brandId:number;
-    colorId:number;
-    modelYear:string;
-    dailyPrice:DecimalPipe;
-    description:string;
+    id: number;
+    brandId: number;
+    brandName: string;
+    colorId: number;
+    colorName: string;
+    minFindexScore: number;
+    modelName: string;
+    modelYear: number;
+    dailyPrice: number;
+    description: string;
+    carImages: CarImage[];
 }
