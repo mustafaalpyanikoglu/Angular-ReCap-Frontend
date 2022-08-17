@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { response } from 'express';
 import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
+import { CarDetailDto } from 'src/app/models/carDetailDto';
 import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarDetailDtoService } from 'src/app/services/car-detail-dto.service';
@@ -16,7 +17,7 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class HomeComponent implements OnInit {
 
-  cars:Car[]=[];
+  cars:CarDetailDto[]=[];
   brands:Brand[]=[];
   colors:Color[]=[];
 
@@ -101,7 +102,7 @@ export class HomeComponent implements OnInit {
     {
       let randomNumber = this.getRandomNumber(tempcarList.length);
       let randomCar = tempcarList[randomNumber];
-      if(randomCar.carImages[0].imagePath != "/images/default/jpg")
+      if(randomCar.imagePath != "/images/default/jpg")
       {
         this.randomCars.push(randomCar)
       }
@@ -124,6 +125,7 @@ export class HomeComponent implements OnInit {
 
   getImagePath(imagePath:string)
   {
+    console.log(this.carImageService.getImagePath(imagePath))
     return this.carImageService.getImagePath(imagePath);
   }
 

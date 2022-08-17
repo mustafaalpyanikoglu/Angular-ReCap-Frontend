@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="col-md-4 d-flex justify-content-center">
-                            <img [src]="getImagePath(randomCar.carImages[0].imagePath)" alt="">
+                            <img [src]="getImagePath(randomCar.imagePath)" alt="">
                         </div>
 
                         <div class="col-md-4 text-end" style="padding-top: 90px;">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div class="container">
-                    <div class="carousel-caption" routerLink="/car-details/{{randomCar.id}}">
+                    <div class="carousel-caption" routerLink="/car-detail-dto/{{randomCar.id}}">
                         <h1 style="text-transform: uppercase; color: var(--firstThemeColor);">{{randomCar.brandName}} {{randomCar.modelName}}
                         </h1>
                         <p>Günlük <strong style="color: var(--firstThemeColor);">{{randomCar.dailyPrice | currency:"":""}}₺</strong> den başlayan fiyatlarla</p>
@@ -265,30 +265,5 @@
             </div>
         </form>
 
-
-        <div *ngIf="carsDataLoaded == true" class="row mb-5">
-            <div class="row row-cols-1 row-cols-md-5 g-4">
-                <div *ngFor="let car of cars | carFilter:filterCarModelName" class="col">
-                    <div class="card h-100" style="width: 15rem; background-color: var(--secondThemeColor);border-radius: 20px;">
-
-                        <img [src]="getImagePath(car.carImages[0].imagePath)" routerLink="/car-details/{{car.id}}" class="card-img-top mt-4" alt="image-not-found" style="object-fit: cover; width: 190px; margin:auto" />
-
-                        <div class="card-body" style="color: white">
-
-                            <h5 class="card-title text-center" style="color: var(--firstThemeColor);"><strong>{{car.brandName}}
-                    {{car.modelName}}</strong></h5>
-                            <div class="divider div-transparent div-arrow-down mb-4" style="--icon-color:white"></div>
-                            <p class="text-center">Günlük <strong style="color: var(--firstThemeColor);">{{car.dailyPrice |
-                    currency:"":""}}₺</strong> den başlayan fiyatlarla..</p>
-
-                            <div class="text-center">
-                                <a routerLink="/car-details/{{car.id}}" class="btn" style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); font-weight: bold;">İNCELE</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

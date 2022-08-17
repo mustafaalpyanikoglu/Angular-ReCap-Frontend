@@ -14,7 +14,8 @@ export class CarImageService {
   constructor(private httpClient:HttpClient) { }
 
   getImagePath(imagePath: string) {
-    return this.apiUrl + imagePath
+    console.log(this.apiUrl+"images/" + imagePath)
+    return this.apiUrl+"images/" + imagePath
   }
 
   uploadImage(image:File,carId:number):Observable<ResponseModel>

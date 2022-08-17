@@ -12,5 +12,5 @@ export interface CarDetailDto
     modelYear: number;
     dailyPrice: number;
     description: string;
-    carImages: CarImage[];
+    imagePath:string;
 }
