@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap');
+* {
+    font-family: 'Barlow', sans-serif !important;
+}
+
+body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    min-height: var(--pageHeight);
+    color: #5a5a5a;
+}
+
+.yuvarlak-text {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.yuvarlak-sayi {
+    font-size: 42px;
+    line-height: 40px;
+    font-weight: 400;
+}
+
 body {
     padding-top: 3rem;
     padding-bottom: 3rem;

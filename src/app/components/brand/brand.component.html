@@ -1,20 +1,22 @@
-<div class="row bg-secondary text-white btn w-100 mt-1 mb-1 mx-auto">
-    <strong>Brands</strong>
-</div>
-<div class="row ">
-    <div class=" text-white btn w-100 mt-1 mb-1 ">
-        <input type="text " [(ngModel)]="filterBrandText " class="form-control " id="filterBrandText " placeholder="Enter your brand name " />
+<div class="sol-menu sticky-top">
+    <div class="row bg-secondary text-white btn w-100 mt-1 mb-1 mx-auto">
+        <strong>Brands</strong>
     </div>
-</div>
-<div class="row ">
-    <ul>
-        <ul class="list-group ">
-            <li routerLink="/cardetails " *ngIf="!filterBrandText " [class]="getAllBrandClass() " (click)="clearCurrentBrand() ">
-                All Cars
-            </li>
-            <li *ngFor="let brand of brands | brandFilter: filterBrandText " routerLink="/cardetails/brand/{{brand.brandId}} " [class]="getCurrentBrandClass(brand) " (click)='setCurrentBrand(brand)'>
-                {{brand.brandName}}
-            </li>
+    <div class="row ">
+        <div class=" text-white btn w-100 mt-1 mb-1 ">
+            <input type="text " [(ngModel)]="filterBrandText " class="form-control " id="filterBrandText " placeholder="Enter your brand name " />
+        </div>
+    </div>
+    <div class="row ">
+        <ul>
+            <ul class="list-group ">
+                <li routerLink="/cardetails " *ngIf="!filterBrandText " [class]="getAllBrandClass() " (click)="clearCurrentBrand() ">
+                    All Cars
+                </li>
+                <li *ngFor="let brand of brands | brandFilter: filterBrandText " routerLink="/cardetails/brand/{{brand.brandId}}" [class]="getCurrentBrandClass(brand) " (click)='setCurrentBrand(brand)'>
+                    {{brand.brandName}}
+                </li>
+            </ul>
         </ul>
-    </ul>
+    </div>
 </div>
