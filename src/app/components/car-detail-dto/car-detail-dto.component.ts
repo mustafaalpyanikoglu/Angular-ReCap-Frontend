@@ -12,7 +12,7 @@ export class CarDetailDtoComponent implements OnInit {
 
   carDetailDtos:CarDetailDto[]=[];
   oneCarDetailDto : CarDetailDto;
-  filterText = "";
+
 
   constructor(private carDetailDtoService:CarDetailDtoService,private activatedRoute:ActivatedRoute) { }
 

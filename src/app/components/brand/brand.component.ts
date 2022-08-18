@@ -17,7 +17,6 @@ export class BrandComponent implements OnInit {
   dataWithRoute: boolean = false;
   filterBrandText: string = '';
   allBrands: string = 'All Brands';
-
   constructor(private brandService:BrandService) { }
 
   ngOnInit(): void {

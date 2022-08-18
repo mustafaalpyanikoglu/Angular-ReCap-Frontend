@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { response } from 'express';
 import { Brand } from 'src/app/models/brand';
-import { Car } from 'src/app/models/car';
 import { CarDetailDto } from 'src/app/models/carDetailDto';
 import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
@@ -23,16 +22,17 @@ export class HomeComponent implements OnInit {
 
   filterBrandId: number = 1;
   filterColorId: number = 1;
-  filterCarModelName: string = "";
 
   carsDataLoaded: boolean = true;
   brandsDataLoaded: boolean = true;
   colorsDataLoaded: boolean = true;
 
   maxRandomCarLength: number = 5;
-  randomCars: Car[] = [];
+  randomCars: CarDetailDto[] = [];
 
   routerLink: string = "";
+  
+  filterCarModelName: string = "";
 
   constructor(
     private carDetailService:CarDetailDtoService,
@@ -85,9 +85,9 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getRandomCars(carList:Car[],number:number)
+  getRandomCars(carList:CarDetailDto[],number:number)
   {
-    let tempcarList:Car[] = [];
+    let tempcarList:CarDetailDto[] = [];
     carList.forEach(car => {
       tempcarList.push(car);
     })
