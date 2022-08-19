@@ -4,6 +4,30 @@
             <app-brand></app-brand>
         </div>
         <div class="col-8">2
+            <div class="row col mb-5">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                    <div class="carousel-indicators">
+                        <button *ngFor="let randomCar of randomCars; let i = index" type="button" data-bs-target="#homeSlide" attr.data-bs-slide-to="{{i}}" class="{{(i == 0) ? 'active' : ''}}" attr.aria-label="Slide {{i}}"></button></div>
+                    <div class="carousel-inner border">
+                        <div *ngFor="let randomCar of randomCars; let i = index" class="{{(i == 0) ? 'carousel-item active' : 'carousel-item' }}">
+                            <div class="position-relative w-100 h-100 text-center">
+                                <img style="width: 900px; height: 500px;" [src]="getImagePath(randomCar.imagePath)" class="img-fluid">
+                                <div class="overlay"></div>
+                                <div class="slayt-baslik"> {{randomCar.description | titlecase }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+                </div>
+            </div>
+
             <div class="row mb-5 justify-content-center">
                 <div class="col-3">
                     <div class="position-relative rounded-circle border p-3" style="height: 150px; width: 150px; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;">
@@ -73,7 +97,6 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

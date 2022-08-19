@@ -1,8 +1,26 @@
-<!--<div class="mb-3">
-    <label for="filterTexxt" class="form-label">Ürün ara</label>
-    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterTexxt" placeholder="arama ifadesi giriniz">
-</div>-
-<div *ngIf="filterText" class="alert alert-success">
-    {{filterText}} aradınız
-</div>-->
-<app-home></app-home>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <app-brand></app-brand>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div *ngFor="let car of carDetailDtos | carFilter:filterCarModelName" class="col-4">
+                    <div class="card mb-4">
+                        <img style="width: 300px; height: 200px" class="card-img-top img-fluid border-bottom" [src]="getImagePath(car.imagePath)" routerLink="/car-details/{{car.id}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title text-center" style="color: var(--firstThemeColor);"><strong>{{car.brandName}}
+                            {{car.modelName}}</strong></h5>
+                            <p class="text-center">Günlük <strong style="color: var(--firstThemeColor);">{{car.dailyPrice |
+                                currency:"":""}}₺</strong> den başlayan fiyatlarla..</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-center">{{car.description |titlecase}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

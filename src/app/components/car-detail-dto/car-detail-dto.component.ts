@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarDetailDto } from 'src/app/models/carDetailDto';
 import { CarDetailDtoService } from 'src/app/services/car-detail-dto.service';
+import { CarImageService } from 'src/app/services/car-image.service';
 
 @Component({
   selector: 'app-car-detail-dto',
@@ -12,9 +13,12 @@ export class CarDetailDtoComponent implements OnInit {
 
   carDetailDtos:CarDetailDto[]=[];
   oneCarDetailDto : CarDetailDto;
+  
+  filterCarModelName: string = "";
 
 
-  constructor(private carDetailDtoService:CarDetailDtoService,private activatedRoute:ActivatedRoute) { }
+  constructor(private carDetailDtoService:CarDetailDtoService,private activatedRoute:ActivatedRoute,
+    private carImageService:CarImageService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params=>{
@@ -61,5 +65,11 @@ export class CarDetailDtoComponent implements OnInit {
     this.carDetailDtoService.getCarDetailByColorAndByBrand(colorId, brandId).subscribe(response => {
       this.carDetailDtos = response.data;
     })
+  }
+
+  getImagePath(imagePath:string)
+  {
+    console.log(this.carImageService.getImagePath(imagePath))
+    return this.carImageService.getImagePath(imagePath);
   }
 }
