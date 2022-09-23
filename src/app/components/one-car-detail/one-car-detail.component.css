@@ -1,0 +1,9 @@
+img {
+    width: 100%;
+    height: 500px;
+}
+
+ ::ng-deep .owl-next,
+ ::ng-deep .owl-prev {
+    font-size: 20px !important;
+}

@@ -20,6 +20,7 @@
     "@angular/router": "^14.1.0",
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.0",
+    "ngx-toastr": "^15.0.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

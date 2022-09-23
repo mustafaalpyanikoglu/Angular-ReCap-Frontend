@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
-        <div class="col-4">1
+        <div class="col-4">
             <app-brand></app-brand>
         </div>
-        <div class="col-8">2
+        <div class="col-8">
             <div class="row col mb-5">
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
                     <div class="carousel-indicators">
@@ -85,7 +85,9 @@
             <div class="row">
                 <div *ngFor="let car of cars | carFilter:filterCarModelName" class="col-4">
                     <div class="card mb-4">
-                        <img style="width: 300px; height: 200px" class="card-img-top img-fluid border-bottom" [src]="getImagePath(car.imagePath)" routerLink="/car-details/{{car.id}}" alt="Card image cap">
+                        <a routerLink="/car-details/{{car.id}}" class="btn" style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); font-weight: bold;">
+                            <img style="width: 300px; height: 200px" class="card-img-top img-fluid border-bottom" [src]="getImagePath(car.imagePath)" alt="Card image cap">
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title text-center" style="color: var(--firstThemeColor);"><strong>{{car.brandName}}
                                 {{car.modelName}}</strong></h5>

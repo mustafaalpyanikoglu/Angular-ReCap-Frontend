@@ -1,11 +1,202 @@
-<div class="row d-flex pt-5 ps-5">
-    <div class="card col-12 m-1 me-5 bg-dark p-1">
-        <app-car-image></app-car-image>
-        <div class="card-body d-flex flex-column align-items-center">
-            <h5 class="card-title text-center app__card-title text-light">{{oneCarDetailDto[0].brandName}} {{oneCarDetailDto[0].description}}</h5>
-            <p class="card-text text-center text-light">{{oneCarDetailDto[0].modelYear}}</p>
-            <p class="card-text text-center text-light">{{oneCarDetailDto[0].modelYear}}</p>
-            <p class="card-text text-center app__card-price text-light">${{oneCarDetailDto[0].dailyPrice}}</p>
+<div *ngIf="carDataLoaded == false" class="spinner-border text-success" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+
+<!-- Modal -->
+<div *ngIf="carDataLoaded" class="modal fade" data-bs-backdrop="static" id="araciSepeteEkle" tabindex="-1" aria-labelledby="araciSepeteEkleBaslik" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="araciSepeteEkleBaslik">Aracı Sepete Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="row ">
+                        <div class="col-md-5 d-flex align-items-center">
+                            <img [src]="getImagePath(currentCar.imagePath)" height="130" alt="..." style="object-fit: cover;">
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="text-center" style="width: 16.5rem;">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{currentCar.brandName}} {{currentCar.modelName}}</h3>
+                                    <h5 class="card-subtitle mb-2 text-muted">Ödenecek Tutar</h5>
+                                    <h4><strong>
+                        <div *ngIf="rentalPeriod && validateRentalDates===true && rentalConfirmation">
+                          <p *ngIf="rentalConfirmation.data===true" class="card-text text-success">
+                            {{currentCar.dailyPrice * rentalPeriod | currency:"":""}}₺</p>
+                        </div>
+                      </strong></h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-center"><strong>Kiralama Tarihi: </strong></label>
+                        <div class="col-sm-8"><input [(ngModel)]="rentDate" (ngModelChange)="validateReservationDates(rentDate,returnDate)" (ngModelChange)="checkIfAnyReservationsBetweenSelectedDates(currentCar.id, rentDate, returnDate)" (ngModelChange)="calculateRentalPeriod()"
+                                name="rentnDate" onkeydown="return false" type="date" [min]="getDateNow()" class="form-control"></div>
+                    </div>
+                    <div *ngIf="rentDate" class="form-group row">
+                        <label class="col-sm-4 col-form-label text-center"><strong>Teslim Tarihi: </strong></label>
+                        <div class="col-sm-8"><input [(ngModel)]="returnDate" (ngModelChange)="validateReservationDates(rentDate,returnDate)" (ngModelChange)="checkIfAnyReservationsBetweenSelectedDates(currentCar.id, rentDate, returnDate)" (ngModelChange)="calculateRentalPeriod()"
+                                name="returnDate" onkeydown="return false" type="date" [min]="addDayToDate(convertStringToDate(rentDate),1)" class="form-control"></div>
+                    </div>
+                </div>
+            </form>
+
+
+
+            <div *ngIf="rentalConfirmation && validateRentalDates===true">
+                <div *ngIf="rentalConfirmation.data===false && (convertStringToDate(rentDate) > convertStringToDate(getDateNow()))">
+                    <div *ngIf="rentalPeriod" class="alert alert-danger text-center" role="alert">
+                        Araç için seçili tarihler arasında başka bir rezervasyon mevcut
+                    </div>
+                </div>
+                <div *ngIf="rentalConfirmation.data===false && (convertStringToDate(rentDate) <= convertStringToDate(getDateNow()))">
+                    <div *ngIf="rentalPeriod" class="alert alert-danger text-center" role="alert">
+                        Araç daha önce kiralanmış
+                    </div>
+                </div>
+                <div *ngIf="rentalConfirmation.data===true">
+                    <div *ngIf="rentalPeriod" class="alert alert-success text-center" role="alert">
+                        <div>Araç <strong>{{rentalPeriod}}</strong> günlüğüne kiralanıyor</div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="rentDate && returnDate && validateRentalDates!==true">
+                <div class="alert alert-danger text-center" role="alert">
+                    <div>Teslim tarihi, kiralama tarihinden büyük olmalıdır!</div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div *ngIf="rentalConfirmation && validateRentalDates===true">
+                    <button *ngIf="rentalConfirmation.data==true" (click)="addToCart(currentCar,convertStringToDate(rentDate),convertStringToDate(returnDate))" type="button" class="btn btn-success" data-bs-dismiss="modal">Sepete Ekle</button>
+                </div>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
+            </div>
         </div>
     </div>
+</div>
+<!-- Modal -->
+
+<div *ngIf="carDataLoaded == true" class="row">
+    <div class="card-body">
+        <div class="row">
+            <h1 class="text-center" style="text-transform: uppercase; font-weight: bold;">{{currentCar.brandName}} {{currentCar.modelName}}
+            </h1>
+            <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:black"></div>
+            <div id="CarImagesCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button *ngFor="let carImage of currentCar.imagePath; let i = index" type="button" data-bs-target="#CarImagesCarousel" attr.data-bs-slide-to="{{i}}" class="{{(i == 0) ? 'active' : ''}}" attr.aria-label="Slide {{i}}"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div *ngFor="let carImage of currentCar.imagePath; let i = index" class="{{(i == 0) ? 'carousel-item active' : 'carousel-item' }} text-center">
+                        <img [src]="getImagePath(currentCar.imagePath)" height="650" alt="..." style="object-fit: cover;">
+                    </div>
+                </div>
+                <div *ngIf="currentCar.imagePath.length != 1">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#CarImagesCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#CarImagesCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-group text-center">
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>MARKA</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.brandName}}</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>MODEL</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.modelName}}</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>RENK</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.colorName}}</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>MODEL YILI</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.modelYear}}</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>AÇIKLAMA</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.description}}</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <strong>GÜNLÜK ÜCRET</strong>
+                        <div class="divider div-transparent div-arrow-down mb-2" style="--icon-color:white"></div>
+                        <div style="color: white;">{{currentCar.dailyPrice | currency:"":""}}₺</div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: var(--secondThemeColor); color: var(--firstThemeColor);">
+                    <div class="card-body">
+                        <button class="btn" style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); font-weight: bold; height: 100%; width: 100%;" role="button" data-bs-toggle="modal" data-bs-target="#araciSepeteEkle">Kirala<br>
+                ({{currentCar.dailyPrice | currency:"":""}}₺)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="carDataLoaded == true" class="row mt-5">
+    <div class="row row-cols-1 row-cols-md-5 g-4" style="margin-top: -70px;">
+        <div *ngFor="let subCar of carsOfCurrentBrand" class="col">
+            <div class="card h-100" style="width: 15rem; background-color: var(--secondThemeColor);border-radius: 20px;">
+
+                <img [src]="getImagePath(subCar.imagePath)" routerLink="/car-details/{{subCar.id}}" class="card-img-top mt-4" alt="image-not-found" style="object-fit: cover; width: 190px; margin:auto" />
+
+                <div class="card-body" style="color: white">
+
+                    <h5 class="card-title text-center" style="color: var(--firstThemeColor);"><strong>{{subCar.brandName}}
+                {{subCar.modelName}}</strong></h5>
+                    <div class="divider div-transparent div-arrow-down mb-4" style="--icon-color:white"></div>
+                    <p class="text-center">Günlük <strong style="color: var(--firstThemeColor);">{{subCar.dailyPrice |
+                currency:"":""}}₺</strong> den başlayan fiyatlarla..</p>
+
+                    <div class="text-center">
+                        <a routerLink="/car-details/{{subCar.id}}" class="btn" style="background-color: var(--firstThemeColor); color: var(--secondThemeColor); font-weight: bold;">İNCELE</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- <div *ngFor="let subCar of carsOfCurrentBrand" class="card border border-light" style="width: 18rem;">
+      <div>
+        <img [src]="getImagePath(subCar.carImages[0].imagePath)" routerLink="/car-details/{{subCar.id}}" height="168"
+          class="card-img-top" alt="...">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title text-center">{{subCar.brandName}} {{subCar.modelName}}</h5>
+        <h5 class="card-title text-center">{{subCar.dailyPrice | currency:"":""}}₺</h5>
+        <div class="text-center"><a routerLink="/car-details/{{subCar.id}}" class="btn btn-primary text-center">İncele</a>
+        </div>
+      </div>
+    </div> -->
 </div>
